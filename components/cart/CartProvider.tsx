@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { CART_MAX_QUANTITY } from "@/lib/constants";
 import type { Product } from "@/lib/types";
 
 export type CartItem = {
@@ -42,11 +43,20 @@ function getInitialCart(): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(getInitialCart);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [isCartHydrated, setIsCartHydrated] = useState(false);
 
   useEffect(() => {
+    setItems(getInitialCart());
+    setIsCartHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isCartHydrated) {
+      return;
+    }
     window.localStorage.setItem("abone_cart", JSON.stringify(items));
-  }, [items]);
+  }, [items, isCartHydrated]);
 
   const addToCart = (product: Product, quantity = 1) => {
     setItems((prev) => {
@@ -54,7 +64,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existing) {
         return prev.map((item) =>
           item.productId === product._id
-            ? { ...item, quantity: Math.min(item.quantity + quantity, 99) }
+            ? { ...item, quantity: Math.min(item.quantity + quantity, CART_MAX_QUANTITY) }
             : item,
         );
       }
@@ -84,7 +94,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     setItems((prev) =>
       prev.map((item) =>
-        item.productId === productId ? { ...item, quantity: Math.min(quantity, 99) } : item,
+        item.productId === productId ? { ...item, quantity: Math.min(quantity, CART_MAX_QUANTITY) } : item,
       ),
     );
   };

@@ -53,9 +53,6 @@ export default async function HomePage() {
       <section className="animate-fade-up animate-stagger-1 mb-14">
         <div className="mb-6 flex flex-col items-center gap-2 text-center">
           <h2 className="section-title">Products</h2>
-          <Link href="/products" className="text-sm font-semibold text-[#1B5E20]">
-            View all
-          </Link>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {homeProducts.length > 0 ? (

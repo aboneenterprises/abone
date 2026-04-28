@@ -49,7 +49,8 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
                   src={img}
                   alt={`${name} image ${index + 1}`}
                   fill
-                  className="object-cover transition duration-700 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="object-contain p-2"
                 />
               </div>
             ))}
@@ -116,7 +117,7 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
             <HiXMark size={22} />
           </button>
           <div className="relative h-[80vh] w-full max-w-5xl overflow-hidden rounded-2xl bg-[#102112]">
-            <Image src={activeImage} alt={name} fill className="object-contain" />
+            <Image src={activeImage} alt={name} fill sizes="100vw" className="object-contain" />
           </div>
         </div>
       ) : null}

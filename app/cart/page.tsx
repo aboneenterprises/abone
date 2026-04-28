@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
+import { CART_MAX_QUANTITY } from "@/lib/constants";
 import { buildWhatsAppCartMessage } from "@/lib/whatsapp";
 
 export default function CartPage() {
@@ -63,7 +64,7 @@ export default function CartPage() {
             {items.map((item) => (
               <article key={item.productId} className="card-soft flex gap-4 p-4">
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#eef5e9]">
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
+                  <Image src={item.image} alt={item.name} fill sizes="96px" className="object-cover" />
                 </div>
                 <div className="flex-1">
                   <h2 className="font-semibold text-[#1B5E20]">{item.name}</h2>
@@ -71,7 +72,7 @@ export default function CartPage() {
                   <div className="mt-3 flex items-center gap-3">
                     <button type="button" onClick={() => updateQuantity(item.productId, item.quantity - 1)} className="rounded-lg border border-[#A5D6A7] px-2">-</button>
                     <span className="w-8 text-center">{item.quantity}</span>
-                    <button type="button" onClick={() => updateQuantity(item.productId, item.quantity + 1)} className="rounded-lg border border-[#A5D6A7] px-2">+</button>
+                    <button type="button" onClick={() => updateQuantity(item.productId, Math.min(item.quantity + 1, CART_MAX_QUANTITY))} className="rounded-lg border border-[#A5D6A7] px-2">+</button>
                     <button type="button" onClick={() => removeFromCart(item.productId)} className="ml-3 text-sm font-semibold text-red-600">Remove</button>
                   </div>
                 </div>

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { ProductDetailsContent } from "@/components/product/ProductDetailsContent";
 import type { Product } from "@/lib/types";
 import { getProductById } from "@/lib/products";
-import { buildWhatsAppProductMessage } from "@/lib/whatsapp";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -27,9 +26,6 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     notFound();
   }
 
-  const productPath = `/products/${String(product._id)}`;
-  const fullProductUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${productPath}`;
-  const whatsappUrl = buildWhatsAppProductMessage(product.name, product.price, fullProductUrl);
   const extraImages = Array.isArray((product as Record<string, unknown>).images)
     ? ((product as Record<string, unknown>).images as string[])
     : [];
@@ -46,7 +42,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
 
   return (
     <div className="container-padded py-10 md:py-14">
-      <ProductDetailsContent product={serializedProduct} whatsappUrl={whatsappUrl} extraImages={extraImages} />
+      <ProductDetailsContent product={serializedProduct} extraImages={extraImages} />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
+import { CART_MAX_QUANTITY } from "@/lib/constants";
 import type { Product } from "@/lib/types";
 import { useCart } from "@/components/cart/CartProvider";
 
@@ -12,9 +12,39 @@ type ProductDetailActionsProps = {
 
 export function ProductDetailActions({ product }: ProductDetailActionsProps) {
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart();
+  const { items, addToCart, updateQuantity } = useCart();
+  const cartItem = useMemo(
+    () => items.find((item) => item.productId === product._id),
+    [items, product._id],
+  );
+
+  useEffect(() => {
+    setQuantity(cartItem?.quantity ?? 1);
+  }, [cartItem?.quantity]);
+
+  const changeQuantity = (nextQuantity: number) => {
+    const clampedQuantity = Math.max(0, Math.min(nextQuantity, CART_MAX_QUANTITY));
+    setQuantity(clampedQuantity);
+
+    // Keep details page quantity synced with cart once item exists.
+    if (cartItem) {
+      updateQuantity(product._id, clampedQuantity);
+    }
+  };
 
   const handleAddToCart = () => {
+    if (quantity === 0) {
+      updateQuantity(product._id, 0);
+      toast.success(`${product.name} removed from cart`);
+      return;
+    }
+
+    if (cartItem) {
+      updateQuantity(product._id, quantity);
+      toast.success(`${product.name} quantity updated`);
+      return;
+    }
+
     addToCart(product, quantity);
     toast.success(`${product.name} added to cart`);
   };
@@ -23,20 +53,22 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
     <div className="space-y-4">
       <div>
         <p className="mb-2 text-sm font-semibold text-[#1B5E20]">Quantity</p>
-        <div className="inline-flex items-center rounded-xl border border-[#A5D6A7]/70 bg-white dark:bg-[#0f1711]">
+        <div className="inline-flex h-11 items-stretch overflow-hidden rounded-xl border-2 border-[#1B5E20] bg-white text-[#1B5E20] shadow-sm">
           <button
             type="button"
-            onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
-            className="px-4 py-2 text-lg"
+            onClick={() => changeQuantity(quantity - 1)}
+            className="flex w-11 items-center justify-center text-lg font-bold text-[#1B5E20] hover:bg-[#eaf8ea]"
             aria-label="Decrease quantity"
           >
             -
           </button>
-          <span className="min-w-10 px-3 text-center font-semibold">{quantity}</span>
+          <span className="flex min-w-11 items-center justify-center border-x-2 border-[#1B5E20] bg-[#f2f8ee] px-3 text-center font-bold text-[#1B5E20]">
+            {quantity}
+          </span>
           <button
             type="button"
-            onClick={() => setQuantity((prev) => Math.min(prev + 1, 20))}
-            className="px-4 py-2 text-lg"
+            onClick={() => changeQuantity(quantity + 1)}
+            className="flex w-11 items-center justify-center text-lg font-bold text-[#1B5E20] hover:bg-[#eaf8ea]"
             aria-label="Increase quantity"
           >
             +
@@ -44,19 +76,14 @@ export function ProductDetailActions({ product }: ProductDetailActionsProps) {
         </div>
       </div>
 
-      <div className="flex gap-3">
-        <button
-          type="button"
-          disabled={product.stock !== "inStock"}
-          onClick={handleAddToCart}
-          className="btn-primary micro-hover w-full disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          Add to Cart
-        </button>
-        <Link href="/cart" className="btn-secondary micro-hover w-full text-center">
-          Go to Cart
-        </Link>
-      </div>
+      <button
+        type="button"
+        disabled={product.stock !== "inStock"}
+        onClick={handleAddToCart}
+        className="btn-primary micro-hover w-full disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {quantity === 0 ? "Remove from Cart" : "Add to Cart"}
+      </button>
     </div>
   );
 }

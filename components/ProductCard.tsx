@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa";
-import { buildWhatsAppProductMessage } from "@/lib/whatsapp";
+import toast from "react-hot-toast";
+import { useCart } from "@/components/cart/CartProvider";
+import { CART_MAX_QUANTITY } from "@/lib/constants";
 import type { Product } from "@/lib/types";
 
 type ProductCardProps = {
@@ -10,11 +13,14 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const productUrl = `/products/${product._id}`;
-  const whatsappUrl = buildWhatsAppProductMessage(
-    product.name,
-    product.price,
-    `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${productUrl}`,
-  );
+  const { items, addToCart, updateQuantity } = useCart();
+  const cartItem = items.find((item) => item.productId === product._id);
+  const quantity = cartItem?.quantity ?? 0;
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    toast.success(`${product.name} added to cart`);
+  };
 
   return (
     <article className="card-soft group overflow-hidden border border-[#A5D6A7]/40 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#1B5E20]/20">
@@ -29,6 +35,7 @@ export function ProductCard({ product }: ProductCardProps) {
           src={product.image}
           alt={product.name}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
@@ -55,15 +62,38 @@ export function ProductCard({ product }: ProductCardProps) {
           >
             View Details
           </Link>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-xl bg-[#25D366] px-4 py-2 text-sm font-semibold text-white shadow-md shadow-[#25D366]/30 transition hover:-translate-y-0.5 hover:bg-[#22c55e]"
-          >
-            <FaWhatsapp />
-            WhatsApp
-          </a>
+          {quantity > 0 ? (
+            <div className="inline-flex h-10 items-stretch overflow-hidden rounded-xl border-2 border-[#1B5E20] bg-white text-[#1B5E20]">
+              <button
+                type="button"
+                onClick={() => updateQuantity(product._id, quantity - 1)}
+                className="flex w-9 items-center justify-center text-base font-bold hover:bg-[#eaf8ea]"
+                aria-label="Decrease quantity"
+              >
+                -
+              </button>
+              <span className="flex min-w-9 items-center justify-center border-x-2 border-[#1B5E20] bg-[#f2f8ee] px-2 text-center text-sm font-bold">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => updateQuantity(product._id, Math.min(quantity + 1, CART_MAX_QUANTITY))}
+                className="flex w-9 items-center justify-center text-base font-bold hover:bg-[#eaf8ea]"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={product.stock !== "inStock"}
+              className="btn-primary px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </article>
