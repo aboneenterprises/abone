@@ -22,7 +22,7 @@ const processSteps = [
   {
     title: "Deliver To You",
     description:
-      "We pack thoughtfully and deliver across Europe with a focus on safety, speed, and minimal waste.",
+      "We pack thoughtfully and ship to the EU and UK with a focus on safety, speed, and minimal waste.",
     icon: FaTruckFast,
   },
 ];
@@ -30,9 +30,10 @@ const processSteps = [
 export function OurProcessSection() {
   return (
     <section className="animate-fade-up animate-stagger-3">
-      <h2 className="section-title mb-2 text-center">Our Process</h2>
-      <p className="mx-auto mb-8 max-w-2xl text-center text-[#4d5c4f]">
-        From ethical sourcing to final delivery, every step is designed to keep quality high and impact low.
+      <p className="mb-2 text-center text-xs font-medium uppercase tracking-[0.14em] text-[#5a635e]">How we work</p>
+      <h2 className="section-title mb-3 text-center">Our process</h2>
+      <p className="mx-auto mb-10 max-w-2xl text-center text-[15px] leading-relaxed text-[#4a524d] md:mb-12">
+        From ethical sourcing to packing and dispatch to the EU and UK, every step keeps quality high and impact low.
       </p>
 
       <div className="mb-2 flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -41,19 +42,21 @@ export function OurProcessSection() {
           return (
             <article
               key={`mobile-${step.title}`}
-              className="relative min-w-[85%] snap-start overflow-hidden rounded-2xl border border-[#A5D6A7]/40 bg-gradient-to-br from-white via-[#f7fcf2] to-[#edf7e9] p-5 shadow-lg shadow-[#1b5e20]/10"
+              className="relative min-w-[85%] snap-start overflow-hidden rounded-xl border border-zinc-200/90 bg-white p-5 shadow-sm"
             >
               <div className="mb-4 flex items-center justify-between">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#1B5E20] text-white shadow-md shadow-[#1B5E20]/25">
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#1B5E20] text-white">
                   <Icon />
                 </span>
-                <span className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-[#1B5E20] ring-1 ring-[#A5D6A7]/60">
+                <span className="rounded-md border border-zinc-200 bg-[#f6f8f6] px-2.5 py-1 text-xs font-medium text-[#1a3f1d]">
                   Step {index + 1}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-[#1B5E20]">{step.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-[#4d5c4f]">{step.description}</p>
-              {index < processSteps.length - 1 ? <span className="mt-3 inline-block text-xs font-medium text-[#6ea772]">Swipe for next step -&gt;</span> : null}
+              <h3 className="text-lg font-medium text-[#1a3f1d]">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#4a524d]">{step.description}</p>
+              {index < processSteps.length - 1 ? (
+                <span className="mt-3 inline-block text-xs font-medium text-[#6b736e]">Swipe for next step →</span>
+              ) : null}
             </article>
           );
         })}
@@ -63,17 +66,17 @@ export function OurProcessSection() {
         {processSteps.map((step, index) => {
           const Icon = step.icon;
           return (
-            <article key={step.title} className="card-soft border border-[#A5D6A7]/40 p-5">
+            <article key={step.title} className="card-soft p-5">
               <div className="mb-4 inline-flex items-center gap-3">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#e8f4e6] text-[#1B5E20]">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#e8f0e9] text-[#1B5E20]">
                   <Icon />
                 </span>
-                <span className="rounded-full bg-[#f2f8ee] px-2.5 py-1 text-xs font-semibold text-[#1B5E20]">
+                <span className="rounded-md border border-zinc-200 bg-[#f6f8f6] px-2.5 py-1 text-xs font-medium text-[#1a3f1d]">
                   Step {index + 1}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-[#1B5E20]">{step.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-[#4d5c4f]">{step.description}</p>
+              <h3 className="text-lg font-medium text-[#1a3f1d]">{step.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[#4a524d]">{step.description}</p>
             </article>
           );
         })}

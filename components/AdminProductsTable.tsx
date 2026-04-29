@@ -12,22 +12,6 @@ type AdminProductsTableProps = {
 export function AdminProductsTable({ products }: AdminProductsTableProps) {
   const router = useRouter();
 
-  const updateStock = async (id: string, stock: "inStock" | "outOfStock") => {
-    const response = await fetch(`/api/products/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ stock }),
-    });
-
-    if (!response.ok) {
-      toast.error("Failed to update stock");
-      return;
-    }
-
-    toast.success("Stock updated");
-    router.refresh();
-  };
-
   const deleteProduct = async (id: string) => {
     const ok = window.confirm("Delete this product?");
     if (!ok) {
@@ -75,9 +59,6 @@ export function AdminProductsTable({ products }: AdminProductsTableProps) {
                   <Link href={`/admin/products/${product._id}/edit`} className="rounded-lg border border-[#1B5E20]/60 px-3 py-1 text-[#1B5E20] transition hover:bg-[#f2f8ee]">
                     Edit
                   </Link>
-                  <button onClick={() => updateStock(product._id, product.stock === "inStock" ? "outOfStock" : "inStock")} className="rounded-lg bg-[#8D6E63] px-3 py-1 text-white transition hover:bg-[#77584d]">
-                    Toggle Stock
-                  </button>
                   <button onClick={() => deleteProduct(product._id)} className="rounded-lg bg-red-600 px-3 py-1 text-white transition hover:bg-red-700">
                     Delete
                   </button>

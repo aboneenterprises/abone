@@ -15,6 +15,22 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   return {
     title: product.name,
     description: product.description,
+    alternates: {
+      canonical: `/products/${id}`,
+    },
+    openGraph: {
+      title: `${product.name} | Abone Eco Store`,
+      description: product.description,
+      url: `/products/${id}`,
+      images: product.image
+        ? [
+            {
+              url: product.image,
+              alt: product.name,
+            },
+          ]
+        : undefined,
+    },
   };
 }
 

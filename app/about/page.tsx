@@ -1,51 +1,55 @@
 import type { Metadata } from "next";
+import { PageBackNav } from "@/components/PageBackNav";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Our eco-friendly mission and Indian craftsmanship story.",
+  description:
+    "About our e-commerce business sourcing unique eco-friendly products from India for customers across Europe.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About | Abone Eco Store",
+    description:
+      "Learn about Abone Eco Store, our sourcing approach, and our eco-friendly handcrafted product focus for Europe.",
+    url: "/about",
+  },
 };
 
 export default function AboutPage() {
   return (
     <div className="container-padded py-10">
+      <PageBackNav href="/" label="Back to home" />
       <h1 className="section-title mb-6">About Abone Eco Store</h1>
       <div className="card-soft space-y-8 border border-[#A5D6A7]/40 p-8 text-[#4d5c4f]">
         <p>
-          Abone Eco Store brings premium, eco-friendly Indian craftsmanship to customers across Europe.
+          We are an e-commerce-based business focused on sourcing and selling unique, eco-friendly products from India
+          across Europe.
         </p>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-[#1B5E20]">Our Story</h2>
-          <p>
-            We started Abone to connect skilled Indian artisan communities with conscious customers looking for
-            beautiful alternatives to mass-produced products. Many of these craft techniques are passed down through
-            generations, and every purchase helps keep that heritage alive.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-[#1B5E20]">Our Mission</h2>
-          <p>
-            Our mission is simple: make sustainable living easier without compromising quality or aesthetics. We curate
-            pieces that are functional, timeless, and made with respect for people and the planet.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-[#1B5E20]">How We Work</h2>
+          <h2 className="text-xl font-semibold text-[#1B5E20]">Our specialty</h2>
           <ul className="list-disc space-y-2 pl-5">
-            <li>Partner with artisan groups that prioritize ethical and safe working conditions.</li>
-            <li>Prefer natural materials like jute, cotton, and responsibly sourced fibers.</li>
-            <li>Focus on durable construction so products stay useful for years, not months.</li>
-            <li>Use mindful packaging to reduce unnecessary waste in delivery.</li>
+            <li>Jute bags</li>
+            <li>Handcrafted items</li>
+            <li>Natural and sustainable products</li>
+            <li>Unique items sourced from different states of India</li>
           </ul>
         </section>
 
         <section className="space-y-3">
-          <h2 className="text-xl font-semibold text-[#1B5E20]">Our Promise</h2>
+          <h2 className="text-xl font-semibold text-[#1B5E20]">How we curate products</h2>
           <p>
-            We are committed to transparent sourcing, consistent quality, and long-term trust. When you choose Abone,
-            you support thoughtful craftsmanship and a cleaner, more responsible way of shopping.
+            We carefully select high-quality, authentic products and offer them through our online platform to customers
+            across Europe who value sustainability and craftsmanship.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-xl font-semibold text-[#1B5E20]">Our mission</h2>
+          <p>
+            Make sustainable living easier by bringing authentic craftsmanship and responsibly sourced products from
+            India to homes across Europe.
           </p>
         </section>
       </div>

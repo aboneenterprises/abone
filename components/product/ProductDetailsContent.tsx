@@ -1,6 +1,8 @@
 "use client";
 
 import type { Product } from "@/lib/types";
+import { capitalizeFirstLetter } from "@/lib/formatText";
+import { PageBackNav } from "@/components/PageBackNav";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductDetailActions } from "@/components/product/ProductDetailActions";
 
@@ -10,34 +12,45 @@ type ProductDetailsContentProps = {
 };
 
 export function ProductDetailsContent({ product, extraImages = [] }: ProductDetailsContentProps) {
+  const displayName = capitalizeFirstLetter(product.name);
+  const displayCategory = capitalizeFirstLetter(product.category);
+  const displayDescription = capitalizeFirstLetter(product.description);
+
   return (
-    <article className="glass-panel space-y-6 border border-[#A5D6A7]/40 p-4 lg:p-6">
-      <div className="grid gap-6 lg:grid-cols-12">
-        <div className="animate-fade-up relative min-h-[440px] overflow-hidden rounded-2xl p-3 lg:col-span-7">
-          <div className="absolute left-6 top-6 z-10 rounded-full bg-[#1B5E20]/85 px-3 py-1 text-xs font-semibold text-white">
-            Eco-crafted
+    <>
+      <PageBackNav href="/products" label="Back to products" />
+      <article className="glass-panel space-y-8 p-5 md:p-8 lg:space-y-10">
+      <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+        <div className="animate-fade-up relative min-h-[400px] overflow-hidden rounded-xl border border-black/[0.06] bg-[#eceee9] p-2 md:min-h-[440px] lg:col-span-7">
+          <div className="absolute left-4 top-4 z-10 rounded-md border border-white/30 bg-[#1B5E20]/92 px-2.5 py-1 text-xs font-medium text-white">
+            Hand-crafted
           </div>
-          <ProductGallery name={product.name} image={product.image} images={extraImages} />
+          <ProductGallery name={displayName} image={product.image} images={extraImages} />
         </div>
 
-        <div className="animate-fade-up animate-stagger-1 space-y-5 p-2 lg:col-span-5 lg:p-4">
-          <h1 className="display-heading text-3xl font-semibold leading-tight text-[#1B5E20]">
-            {product.name}
+        <div className="animate-fade-up animate-stagger-1 flex flex-col space-y-6 lg:col-span-5 lg:justify-center lg:pl-2">
+          <h1 className="display-heading text-3xl font-medium leading-snug tracking-tight text-[#1a3f1d] md:text-4xl">
+            {displayName}
           </h1>
 
           <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-[#A5D6A7]/60 px-3 py-1 text-xs font-semibold text-[#1B5E20]">
-              {product.category}
+            <span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-[#1a3f1d]">
+              {displayCategory}
             </span>
-            <span className="rounded-full bg-[#f2f8ee] px-3 py-1 text-xs font-semibold text-[#1B5E20]">
-              Natural & Sustainable
+            <span className="rounded-md border border-zinc-200/80 bg-[#f4f6f4] px-2.5 py-1 text-xs font-medium text-[#3d5240]">
+              Natural materials
             </span>
           </div>
 
-          <div className="flex items-center justify-between rounded-2xl bg-[#f2f8ee] p-4">
-            <p className="text-3xl font-bold text-[#8D6E63]">₹{product.price}</p>
-            <p className="text-sm font-semibold text-[#1B5E20]">
-              {product.stock === "inStock" ? "In Stock" : "Out of Stock"}
+          <div className="rounded-xl border border-zinc-200/80 bg-[#f6f8f6] p-4 md:p-5">
+            <div className="flex items-baseline justify-between gap-3">
+              <p className="text-3xl font-semibold tabular-nums text-[#5c4f46]">₹{product.price}</p>
+              <p className="shrink-0 text-sm font-medium text-[#1a3f1d]">
+                {product.stock === "inStock" ? "In stock" : "Out of stock"}
+              </p>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-[#4a524d]">
+              Price in INR. Shipping to the EU or UK and payment are agreed with you on WhatsApp before we dispatch.
             </p>
           </div>
 
@@ -45,10 +58,11 @@ export function ProductDetailsContent({ product, extraImages = [] }: ProductDeta
         </div>
       </div>
 
-      <div className="border-t border-[#A5D6A7]/60 pt-5 text-sm leading-7 text-[#1f2b22]">
-        <p className="text-base font-bold text-[#1B5E20]">Product Description</p>
-        <p className="mt-2 text-[#1f2b22]">{product.description}</p>
+      <div className="border-t border-zinc-200/90 pt-8 text-[15px] leading-relaxed text-[#2a302c]">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#5a635e]">Description</h2>
+        <p className="mt-3 max-w-prose">{displayDescription}</p>
       </div>
     </article>
+    </>
   );
 }

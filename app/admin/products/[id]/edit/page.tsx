@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { PageBackNav } from "@/components/PageBackNav";
 import { ProductForm } from "@/components/ProductForm";
 import { getProductById } from "@/lib/products";
 
@@ -17,6 +18,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
 
   return (
     <div className="container-padded py-10">
+      <PageBackNav href="/admin" label="Back to admin" />
       <h1 className="section-title mb-6">Edit Product</h1>
       <ProductForm mode="edit" initialData={{ ...product, _id: String(product._id) }} />
     </div>

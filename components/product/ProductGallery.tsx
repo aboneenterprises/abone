@@ -2,12 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import {
-  HiChevronLeft,
-  HiChevronRight,
-  HiMagnifyingGlassPlus,
-  HiXMark,
-} from "react-icons/hi2";
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 
 type ProductGalleryProps = {
   name: string;
@@ -22,9 +17,6 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
   }, [image, images]);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [zoomOpen, setZoomOpen] = useState(false);
-
-  const activeImage = gallery[activeIndex] || image;
   const hasMultiple = gallery.length > 1;
 
   const goToPrev = () => {
@@ -36,21 +28,20 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
   };
 
   return (
-    <>
-      <div className="space-y-4">
-        <div className="group relative h-full min-h-[420px] overflow-hidden rounded-2xl bg-[#eef5e9]">
+    <div className="space-y-4">
+      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#eef5e9]">
           <div
             className="flex h-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {gallery.map((img, index) => (
-              <div key={`${img}-${index}`} className="relative h-full min-h-[420px] w-full shrink-0">
+            <div key={`${img}-${index}`} className="relative h-full w-full shrink-0">
                 <Image
                   src={img}
                   alt={`${name} image ${index + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"
-                  className="object-contain p-2"
+                className="object-cover"
                 />
               </div>
             ))}
@@ -76,15 +67,6 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
               </button>
             </>
           ) : null}
-
-          <button
-            type="button"
-            onClick={() => setZoomOpen(true)}
-            className="absolute bottom-4 right-4 inline-flex items-center gap-2 rounded-xl bg-white/90 px-3 py-2 text-sm font-semibold text-[#1B5E20] shadow-md transition hover:bg-white"
-          >
-            <HiMagnifyingGlassPlus />
-            Zoom
-          </button>
         </div>
 
         {hasMultiple ? (
@@ -104,23 +86,6 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
             ))}
           </div>
         ) : null}
-      </div>
-
-      {zoomOpen ? (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true">
-          <button
-            type="button"
-            onClick={() => setZoomOpen(false)}
-            className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-[#1B5E20]"
-            aria-label="Close zoom"
-          >
-            <HiXMark size={22} />
-          </button>
-          <div className="relative h-[80vh] w-full max-w-5xl overflow-hidden rounded-2xl bg-[#102112]">
-            <Image src={activeImage} alt={name} fill sizes="100vw" className="object-contain" />
-          </div>
-        </div>
-      ) : null}
-    </>
+    </div>
   );
 }

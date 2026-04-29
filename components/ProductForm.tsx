@@ -13,6 +13,10 @@ type ProductFormProps = {
 
 export function ProductForm({ mode, initialData }: ProductFormProps) {
   const MAX_IMAGES = 6;
+  const RECOMMENDED_RATIO = 4 / 5;
+  const RATIO_TOLERANCE = 0.03;
+  const MIN_WIDTH = 800;
+  const MIN_HEIGHT = 1000;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -34,12 +38,28 @@ export function ProductForm({ mode, initialData }: ProductFormProps) {
       return;
     }
 
-    const filesToUpload = files.slice(0, availableSlots);
+    const filesToCheck = files.slice(0, availableSlots);
+    const validFiles: File[] = [];
+
+    for (const file of filesToCheck) {
+      const validation = await validateImageFile(file);
+      if (!validation.valid) {
+        toast.error(`${file.name}: ${validation.reason}`);
+        continue;
+      }
+      validFiles.push(file);
+    }
+
+    if (validFiles.length === 0) {
+      setUploading(false);
+      event.target.value = "";
+      return;
+    }
 
     setUploading(true);
     const uploadedUrls: string[] = [];
 
-    for (const file of filesToUpload) {
+    for (const file of validFiles) {
       const formData = new FormData();
       formData.append("file", file);
 
@@ -67,6 +87,46 @@ export function ProductForm({ mode, initialData }: ProductFormProps) {
     setUploading(false);
     event.target.value = "";
   };
+
+  const validateImageFile = async (file: File): Promise<{ valid: boolean; reason?: string }> => {
+    const dimensions = await getImageDimensions(file);
+    if (!dimensions) {
+      return { valid: false, reason: "Could not read image dimensions" };
+    }
+
+    const { width, height } = dimensions;
+    const ratio = width / height;
+    const ratioMismatch = Math.abs(ratio - RECOMMENDED_RATIO) > RATIO_TOLERANCE;
+
+    if (width < MIN_WIDTH || height < MIN_HEIGHT) {
+      return { valid: false, reason: `Minimum size is ${MIN_WIDTH}x${MIN_HEIGHT}` };
+    }
+
+    if (ratioMismatch) {
+      return { valid: false, reason: "Use 4:5 ratio (example 1200x1500)" };
+    }
+
+    return { valid: true };
+  };
+
+  const getImageDimensions = (file: File): Promise<{ width: number; height: number } | null> =>
+    new Promise((resolve) => {
+      const objectUrl = URL.createObjectURL(file);
+      const image = new Image();
+
+      image.onload = () => {
+        const dims = { width: image.naturalWidth, height: image.naturalHeight };
+        URL.revokeObjectURL(objectUrl);
+        resolve(dims);
+      };
+
+      image.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        resolve(null);
+      };
+
+      image.src = objectUrl;
+    });
 
   const handleRemoveImage = (imageUrl: string) => {
     setImages((prev) => prev.filter((img) => img !== imageUrl));
@@ -127,6 +187,10 @@ export function ProductForm({ mode, initialData }: ProductFormProps) {
 
       <div className="space-y-2">
         <label className="block text-sm font-medium text-[#1B5E20]">Upload Images (up to 6)</label>
+        <p className="text-xs leading-relaxed text-[#4d5c4f]">
+          Recommended image ratio: <span className="font-semibold">4:5</span> (for example 1200x1500). This gives the
+          best visibility in product grid cards and detail pages.
+        </p>
         <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="input-premium py-2" />
         {uploading ? <p className="text-sm text-[#4d5c4f]">Uploading image...</p> : null}
         {images.length > 0 ? (

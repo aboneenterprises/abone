@@ -49,6 +49,7 @@ a {
 .card-soft {
   @apply rounded-3xl bg-white/95 shadow-xl shadow-[#1b5e20]/10 ring-1 ring-[#A5D6A7]/35;
 }
+
 .dark .card-soft {
   @apply bg-[#17231a]/90 ring-[#325136] shadow-[#000000]/25;
 }
@@ -64,6 +65,7 @@ a {
 .input-premium {
   @apply w-full rounded-xl border border-[#A5D6A7]/70 bg-white px-4 py-3 text-[#1c2a1f] outline-none transition focus:border-[#1B5E20] focus:ring-4 focus:ring-[#A5D6A7]/30;
 }
+
 .dark .input-premium {
   @apply border-[#3a5b3d] bg-[#0f1711] text-[#d8ead9] focus:border-[#A5D6A7];
 }
@@ -75,6 +77,7 @@ a {
 .glass-panel {
   @apply rounded-3xl border border-white/40 bg-white/55 shadow-2xl shadow-[#1b5e20]/10 backdrop-blur-xl;
 }
+
 .dark .glass-panel {
   @apply border-[#315134]/60 bg-[#17231a]/70 shadow-black/30;
 }

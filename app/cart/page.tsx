@@ -37,9 +37,9 @@ export default function CartPage() {
   };
 
   return (
-    <div className="container-padded py-10 md:py-14">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="section-title">Your Cart</h1>
+    <div className="container-padded min-w-0 max-w-full py-10 pb-28 md:py-14 md:pb-14">
+      <div className="mb-6 flex min-w-0 flex-wrap items-center justify-between gap-3">
+        <h1 className="section-title min-w-0">Your Cart</h1>
         {items.length > 0 ? (
           <button
             type="button"
@@ -55,41 +55,43 @@ export default function CartPage() {
         <div className="card-soft p-8 text-center">
           <p className="text-[#4d5c4f]">Your cart is empty.</p>
           <Link href="/products" className="btn-primary mt-4 inline-block">
-            Continue Shopping
+            Continue shopping
           </Link>
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="space-y-4 lg:col-span-2">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+          <div className="min-w-0 space-y-4 lg:col-span-2">
             {items.map((item) => (
-              <article key={item.productId} className="card-soft flex gap-4 p-4">
+              <article key={item.productId} className="card-soft flex min-w-0 gap-4 p-4">
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-[#eef5e9]">
                   <Image src={item.image} alt={item.name} fill sizes="96px" className="object-cover" />
                 </div>
-                <div className="flex-1">
-                  <h2 className="font-semibold text-[#1B5E20]">{item.name}</h2>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-start justify-between gap-2 gap-y-1">
+                    <h2 className="min-w-0 max-w-full break-words font-semibold text-[#1B5E20]">{item.name}</h2>
+                    <p className="shrink-0 font-semibold text-[#1B5E20]">₹{item.price * item.quantity}</p>
+                  </div>
                   <p className="text-sm text-[#8D6E63]">₹{item.price}</p>
-                  <div className="mt-3 flex items-center gap-3">
+                  <div className="mt-3 flex flex-wrap items-center gap-2 sm:gap-3">
                     <button type="button" onClick={() => updateQuantity(item.productId, item.quantity - 1)} className="rounded-lg border border-[#A5D6A7] px-2">-</button>
                     <span className="w-8 text-center">{item.quantity}</span>
                     <button type="button" onClick={() => updateQuantity(item.productId, Math.min(item.quantity + 1, CART_MAX_QUANTITY))} className="rounded-lg border border-[#A5D6A7] px-2">+</button>
-                    <button type="button" onClick={() => removeFromCart(item.productId)} className="ml-3 text-sm font-semibold text-red-600">Remove</button>
+                    <button type="button" onClick={() => removeFromCart(item.productId)} className="text-sm font-semibold text-red-600 sm:ml-1">Remove</button>
                   </div>
                 </div>
-                <p className="font-semibold text-[#1B5E20]">₹{item.price * item.quantity}</p>
               </article>
             ))}
           </div>
 
-          <aside className="card-soft h-fit space-y-3 p-6 lg:sticky lg:top-24">
+          <aside className="card-soft h-fit min-w-0 space-y-3 p-6 lg:sticky lg:top-24">
             <h3 className="text-xl font-semibold text-[#1B5E20]">Order Summary</h3>
             <div className="flex justify-between text-sm text-[#4d5c4f]">
               <span>Items</span>
               <span>{totalItems}</span>
             </div>
-            <div className="flex justify-between text-sm text-[#4d5c4f]">
-              <span>Shipping</span>
-              <span>Calculated on WhatsApp</span>
+            <div className="flex justify-between gap-3 text-sm text-[#4d5c4f]">
+              <span className="shrink-0">Shipping</span>
+              <span className="break-words text-right">EU / UK rates on WhatsApp</span>
             </div>
             <div className="border-t border-[#A5D6A7]/50 pt-3">
               <div className="flex justify-between font-semibold text-[#1B5E20]">

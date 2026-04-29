@@ -5,13 +5,13 @@ export function buildWhatsAppProductMessage(
   price: number,
   productUrl: string,
 ): string {
-  const message = `Hello, I am interested in '${productName}' priced at ₹${price}. Please share more details.\nProduct URL: ${productUrl}`;
+  const message = `Hello, I am in Europe and interested in '${productName}' (listed at ₹${price}). Please share more details and shipping to my country.\nProduct URL: ${productUrl}`;
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
 export function buildWhatsAppGeneralMessage(): string {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(
-    "Hello, I would like to know more about your eco-friendly products.",
+    "Hello, I am in Europe and would like to know more about your eco-friendly products and delivery options.",
   )}`;
 }
 
@@ -34,7 +34,7 @@ export function buildWhatsAppCartMessage(
     .join("\n");
 
   const message = [
-    "Hello, I want to place an order for the following items:",
+    "Hello, I want to place an order for delivery in Europe / the UK. Items:",
     "",
     itemLines,
     "",

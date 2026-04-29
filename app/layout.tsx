@@ -15,14 +15,54 @@ const playfair = Playfair_Display({
   variable: "--font-display",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+
 export const metadata: Metadata = {
   title: {
     default: "Abone Eco Store",
     template: "%s | Abone Eco Store",
   },
   description:
-    "Premium eco-friendly products from India for Europe, including jute bags and handcrafted sustainable goods.",
-  metadataBase: new URL("https://example.com"),
+    "Eco-friendly jute bags and sustainable home goods for customers in Europe and the UK. Handcrafted quality with EU-friendly ordering and delivery.",
+  metadataBase: new URL(siteUrl),
+  keywords: [
+    "eco-friendly products Europe",
+    "jute bags",
+    "handcrafted products India",
+    "sustainable home goods",
+    "natural products",
+    "Abone Eco Store",
+  ],
+  category: "shopping",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    siteName: "Abone Eco Store",
+    title: "Abone Eco Store",
+    description:
+      "Sustainable home goods for customers in Europe and the UK. Order via WhatsApp with clear EU-friendly delivery.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Abone Eco Store",
+    description:
+      "Sustainable home goods for customers in Europe and the UK. Discover jute bags, handcrafted items, and natural products.",
+  },
 };
 
 export default function RootLayout({
@@ -31,8 +71,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} min-h-screen bg-[#F9FBE7] text-[#1c2a1f]`}>
+    <html lang="en-GB">
+      <body className={`${inter.variable} ${playfair.variable} min-h-screen text-[var(--text)]`}>
         <CartProvider>
           <ToastProvider />
           <RouteShell>{children}</RouteShell>
