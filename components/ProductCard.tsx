@@ -29,7 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article className="card-soft group overflow-hidden transition-shadow duration-200 hover:shadow-md">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#eceee9]">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#eceee9]">
         <div className="absolute left-3 top-3 z-10 rounded-md border border-zinc-200/90 bg-white/95 px-2.5 py-1 text-xs font-medium text-[#1a3f1d]">
           {displayCategory}
         </div>

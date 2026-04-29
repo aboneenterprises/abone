@@ -29,7 +29,7 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
 
   return (
     <div className="space-y-4">
-      <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-[#eef5e9]">
+      <div className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-[#eef5e9]">
           <div
             className="flex h-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
