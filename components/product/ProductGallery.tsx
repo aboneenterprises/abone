@@ -29,19 +29,19 @@ export function ProductGallery({ name, image, images = [] }: ProductGalleryProps
 
   return (
     <div className="space-y-4">
-      <div className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-[#eef5e9]">
+      <div className="group relative aspect-square w-full overflow-hidden rounded-2xl bg-white">
           <div
             className="flex h-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${activeIndex * 100}%)` }}
           >
             {gallery.map((img, index) => (
-            <div key={`${img}-${index}`} className="relative h-full w-full shrink-0">
+            <div key={`${img}-${index}`} className="relative h-full w-full shrink-0 bg-white">
                 <Image
                   src={img}
                   alt={`${name} image ${index + 1}`}
                   fill
                   sizes="(max-width: 1024px) 100vw, 58vw"
-                className="object-cover"
+                className="object-cover bg-white"
                 />
               </div>
             ))}

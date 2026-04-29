@@ -21,7 +21,7 @@ export function ProductDetailsContent({ product, extraImages = [] }: ProductDeta
       <PageBackNav href="/products" label="Back to products" />
       <article className="glass-panel space-y-8 p-5 md:p-8 lg:space-y-10">
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-        <div className="animate-fade-up relative w-full overflow-hidden rounded-xl border border-black/[0.06] bg-[#eceee9] lg:col-span-7">
+        <div className="animate-fade-up relative w-full overflow-hidden rounded-xl lg:col-span-7">
           <div className="absolute left-4 top-4 z-10 rounded-md border border-white/30 bg-[#1B5E20]/92 px-2.5 py-1 text-xs font-medium text-white">
             Hand-crafted
           </div>
