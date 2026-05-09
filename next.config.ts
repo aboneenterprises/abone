@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
+  poweredByHeader: false,
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",

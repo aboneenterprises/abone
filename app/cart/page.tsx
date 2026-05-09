@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { CART_MAX_QUANTITY } from "@/lib/constants";
+import { formatEur } from "@/lib/currency";
 import { buildWhatsAppCartMessage } from "@/lib/whatsapp";
 
 export default function CartPage() {
@@ -69,9 +70,9 @@ export default function CartPage() {
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-start justify-between gap-2 gap-y-1">
                     <h2 className="min-w-0 max-w-full break-words font-semibold text-[#1B5E20]">{item.name}</h2>
-                    <p className="shrink-0 font-semibold text-[#1B5E20]">₹{item.price * item.quantity}</p>
+                    <p className="shrink-0 font-semibold text-[#1B5E20]">{formatEur(item.price * item.quantity)}</p>
                   </div>
-                  <p className="text-sm text-[#8D6E63]">₹{item.price}</p>
+                  <p className="text-sm text-[#8D6E63]">{formatEur(item.price)}</p>
                   <div className="mt-3 flex flex-wrap items-center gap-2 sm:gap-3">
                     <button type="button" onClick={() => updateQuantity(item.productId, item.quantity - 1)} className="rounded-lg border border-[#A5D6A7] px-2">-</button>
                     <span className="w-8 text-center">{item.quantity}</span>
@@ -96,7 +97,7 @@ export default function CartPage() {
             <div className="border-t border-[#A5D6A7]/50 pt-3">
               <div className="flex justify-between font-semibold text-[#1B5E20]">
                 <span>Subtotal</span>
-                <span>₹{subtotal}</span>
+                <span>{formatEur(subtotal)}</span>
               </div>
             </div>
             <div className="space-y-2">

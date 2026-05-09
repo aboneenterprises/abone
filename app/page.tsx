@@ -17,15 +17,53 @@ export const metadata: Metadata = {
     description:
       "Unique eco-friendly products sourced from India for Europe, including jute bags, handcrafted items, and natural products.",
     url: "/",
+    images: [
+      {
+        url: "/hero-eco.jpg",
+        alt: "Eco-friendly handcrafted products by Abone Eco Store",
+      },
+    ],
   },
 };
+
+export const revalidate = 300;
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
   const homeProducts = featuredProducts.slice(0, 4);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Abone Eco Store",
+    url: siteUrl,
+    logo: `${siteUrl}/icon.svg`,
+    description:
+      "E-commerce store offering eco-friendly jute bags, handcrafted items, and natural products across Europe.",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        areaServed: ["EU", "GB"],
+      },
+    ],
+  };
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Abone Eco Store",
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/products`,
+      "query-input": "required name=search_term_string",
+    },
+  };
 
   return (
     <div className="container-padded py-12 md:py-20">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       <section className="glass-panel animate-fade-up mb-16 grid gap-10 overflow-hidden p-8 md:mb-20 md:grid-cols-2 md:gap-12 md:p-12">
         <div className="animate-fade-up animate-stagger-1 flex flex-col justify-center space-y-6">
           <p className="inline-flex w-fit rounded-md border border-zinc-200 bg-white px-3 py-1.5 text-xs font-medium uppercase tracking-[0.08em] text-[#3d5240]">
@@ -45,12 +83,12 @@ export default async function HomePage() {
           </div>
         </div>
         <div className="animate-fade-up animate-stagger-2 flex items-center p-1 md:p-0">
-          <div className="relative h-[260px] w-full overflow-hidden rounded-xl border border-black/[0.06] shadow-sm md:h-[min(24rem,50vh)] md:min-h-[280px]">
+          <div className="relative aspect-[5/4] w-full overflow-hidden rounded-xl border border-black/[0.06] shadow-sm md:aspect-[4/3]">
             <Image
               src="/hero-eco.jpg"
               alt="Eco-friendly handcrafted jute and natural products"
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 640px) 92vw, (max-width: 1024px) 48vw, 42vw"
               className="object-cover"
               priority
             />

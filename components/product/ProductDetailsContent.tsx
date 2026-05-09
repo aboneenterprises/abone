@@ -2,6 +2,7 @@
 
 import type { Product } from "@/lib/types";
 import { capitalizeFirstLetter } from "@/lib/formatText";
+import { formatEur } from "@/lib/currency";
 import { PageBackNav } from "@/components/PageBackNav";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductDetailActions } from "@/components/product/ProductDetailActions";
@@ -44,13 +45,13 @@ export function ProductDetailsContent({ product, extraImages = [] }: ProductDeta
 
           <div className="rounded-xl border border-zinc-200/80 bg-[#f6f8f6] p-4 md:p-5">
             <div className="flex items-baseline justify-between gap-3">
-              <p className="text-3xl font-semibold tabular-nums text-[#5c4f46]">₹{product.price}</p>
+              <p className="text-3xl font-semibold tabular-nums text-[#5c4f46]">{formatEur(product.price)}</p>
               <p className="shrink-0 text-sm font-medium text-[#1a3f1d]">
                 {product.stock === "inStock" ? "In stock" : "Out of stock"}
               </p>
             </div>
             <p className="mt-3 text-sm leading-relaxed text-[#4a524d]">
-              Price in INR. Shipping to the EU or UK and payment are agreed with you on WhatsApp before we dispatch.
+              EUR price shown. Shipping to the EU or UK and payment are agreed with you on WhatsApp before we dispatch.
             </p>
           </div>
 

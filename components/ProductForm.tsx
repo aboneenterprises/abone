@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import type { Product, ProductStock } from "@/lib/types";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { formatEur } from "@/lib/currency";
 
 type ProductFormProps = {
   mode: "create" | "edit";
@@ -20,6 +21,9 @@ export function ProductForm({ mode, initialData }: ProductFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [priceInput, setPriceInput] = useState<string>(() =>
+    initialData?.price !== undefined ? String(initialData.price) : "",
+  );
   const [images, setImages] = useState<string[]>(() => {
     const initialImages = Array.isArray(initialData?.images) ? initialData.images : [];
     const merged = [initialData?.image || "", ...initialImages].filter(Boolean);
@@ -178,7 +182,25 @@ export function ProductForm({ mode, initialData }: ProductFormProps) {
     <form onSubmit={handleSubmit} className="card-soft space-y-4 border border-[#A5D6A7]/40 p-6 md:p-8">
       <input defaultValue={initialData?.name} name="name" required placeholder="Product name" className="input-premium" />
       <textarea defaultValue={initialData?.description} name="description" required rows={4} placeholder="Description" className="input-premium" />
-      <input defaultValue={initialData?.price} name="price" type="number" min={0} required placeholder="Price" className="input-premium" />
+      <input
+        value={priceInput}
+        onChange={(event) => setPriceInput(event.target.value)}
+        name="price"
+        type="number"
+        min={0}
+        step="0.01"
+        required
+        placeholder="0.00"
+        className="input-premium"
+      />
+      <p className="text-xs text-[#4d5c4f]">
+        Prices are entered and shown in EUR.
+        {priceInput.trim() !== "" ? (
+          <>
+            {" "}Current value: <span className="font-semibold">{formatEur(Number(priceInput) || 0)}</span>
+          </>
+        ) : null}
+      </p>
       <input defaultValue={initialData?.category} name="category" required placeholder="Category" className="input-premium" />
       <select defaultValue={initialData?.stock || "inStock"} name="stock" className="input-premium">
         <option value="inStock">In Stock</option>

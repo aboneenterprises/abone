@@ -34,6 +34,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   };
 }
 
+export const revalidate = 300;
+
 export default async function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const product = await getProductById(id);
@@ -55,9 +57,26 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     category: product.category,
     stock: product.stock,
   };
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: [product.image, ...extraImages].filter(Boolean),
+    category: product.category,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: product.price,
+      availability: product.stock === "inStock" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      url: `${siteUrl}/products/${id}`,
+    },
+  };
 
   return (
     <div className="container-padded py-10 md:py-14">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
       <ProductDetailsContent product={serializedProduct} extraImages={extraImages} />
     </div>
   );

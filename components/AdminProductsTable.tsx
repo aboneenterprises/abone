@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import type { Product } from "@/lib/types";
+import { formatEur } from "@/lib/currency";
 
 type AdminProductsTableProps = {
   products: Product[];
@@ -47,7 +48,7 @@ export function AdminProductsTable({ products }: AdminProductsTableProps) {
           {products.map((product) => (
             <tr key={product._id} className="border-t border-[#A5D6A7]/20 transition hover:bg-[#f6faef]">
               <td className="px-4 py-3 font-medium">{product.name}</td>
-              <td className="px-4 py-3 font-semibold text-[#8D6E63]">₹{product.price}</td>
+              <td className="px-4 py-3 font-semibold text-[#8D6E63]">{formatEur(product.price)}</td>
               <td className="px-4 py-3">{product.category}</td>
               <td className="px-4 py-3">
                 <span className="rounded-full bg-[#A5D6A7]/40 px-3 py-1 text-xs font-semibold text-[#1B5E20]">

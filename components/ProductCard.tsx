@@ -7,6 +7,7 @@ import { useCart } from "@/components/cart/CartProvider";
 import { CART_MAX_QUANTITY } from "@/lib/constants";
 import type { Product } from "@/lib/types";
 import { capitalizeFirstLetter } from "@/lib/formatText";
+import { formatEur } from "@/lib/currency";
 
 type ProductCardProps = {
   product: Product;
@@ -49,7 +50,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="text-lg font-medium leading-snug tracking-tight text-[#1a3f1d]">{displayName}</h3>
         <p className="line-clamp-2 text-sm leading-relaxed text-[#4a524d]">{displayDescription}</p>
         <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold tabular-nums text-[#5c4f46]">₹{product.price}</span>
+          <span className="text-lg font-semibold tabular-nums text-[#5c4f46]">{formatEur(product.price)}</span>
           <span
             className={`rounded-md px-2.5 py-1 text-xs font-medium ${
               product.stock === "inStock"

@@ -16,6 +16,7 @@ const links = [
 export function Navbar() {
   const pathname = usePathname();
   const { totalItems } = useCart();
+  const shouldPrioritizeLogo = pathname === "/";
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#A5D6A7]/45 bg-white backdrop-blur-xl">
@@ -31,7 +32,7 @@ export function Navbar() {
             width={512}
             height={181}
             className="h-12 w-auto object-contain sm:h-16"
-            priority
+            priority={shouldPrioritizeLogo}
           />
         </Link>
         <div className="flex items-center gap-2 md:hidden">

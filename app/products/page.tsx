@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const revalidate = 300;
+
 export default async function ProductsPage() {
   const products = await getAllProducts();
 

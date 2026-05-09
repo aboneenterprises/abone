@@ -1,11 +1,12 @@
 import { WHATSAPP_PHONE } from "@/lib/constants";
+import { formatEur } from "@/lib/currency";
 
 export function buildWhatsAppProductMessage(
   productName: string,
   price: number,
   productUrl: string,
 ): string {
-  const message = `Hello, I am in Europe and interested in '${productName}' (listed at ₹${price}). Please share more details and shipping to my country.\nProduct URL: ${productUrl}`;
+  const message = `Hello, I am in Europe and interested in '${productName}' (listed at ${formatEur(price)}). Please share more details and shipping to my country.\nProduct URL: ${productUrl}`;
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
 }
 
@@ -29,7 +30,7 @@ export function buildWhatsAppCartMessage(
   const itemLines = items
     .map((item, index) => {
       const lineTotal = item.price * item.quantity;
-      return `${index + 1}. ${item.name} x ${item.quantity} = ₹${lineTotal}`;
+      return `${index + 1}. ${item.name} x ${item.quantity} = ${formatEur(lineTotal)}`;
     })
     .join("\n");
 
@@ -38,7 +39,7 @@ export function buildWhatsAppCartMessage(
     "",
     itemLines,
     "",
-    `Subtotal: ₹${subtotal}`,
+    `Subtotal: ${formatEur(subtotal)}`,
     note ? `Note: ${note}` : "",
     "Please share final shipping and payment details for Europe delivery.",
   ]
